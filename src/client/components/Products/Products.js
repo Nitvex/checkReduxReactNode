@@ -22,7 +22,7 @@ class Products extends Component {
             return response.json();
         }).then((products) => {
             console.log(products);
-            this.setState({products:products});
+            this.setState({products: products});
         });
 
     }
