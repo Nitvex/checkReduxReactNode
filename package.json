@@ -8,6 +8,7 @@
     "@babel/preset-react": "^7.0.0",
     "@version/react-router-v3": "^1.0.0",
     "babel-loader": "^8.0.2",
+    "body-parser": "^1.18.3",
     "clean-webpack-plugin": "^0.1.19",
     "html-webpack-plugin": "^3.2.0",
     "react": "^16.5.2",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "css-loader": "^1.0.0",
+    "express": "^4.16.3",
     "style-loader": "^0.23.0",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.8"
@@ -28,7 +30,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "webpack": "webpack-dev-server --open"
+    "webpack": "webpack-dev-server --open",
+    "wpb": "webpack"
   },
   "eslintConfig": {
     "extends": "react-app"
