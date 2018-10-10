@@ -1,29 +1,29 @@
 import React, {Component} from 'react';
-
+import {connect} from 'react-redux';
 import {Link} from "react-router-dom";
+import {fetchNumbers} from '../../actions/fetchNumbers';
 
-class Numbers extends Component {
+
+const mapStateToProps = state => {
+    return {numbers: state.numbers};
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchNumbers: () => dispatch(fetchNumbers())
+    };
+};
+
+class connectedNumbers extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            numbers: []
-        };
     }
 
     componentDidMount() {
-        let requestOptions = {
-            method: 'GET',
-            headers: new Headers(),
-            mode: 'cors',
-            cache: 'default'
-        };
-        fetch('http://127.0.0.1:3000/numbers', requestOptions).then((response) => {
-            return response.json();
-        }).then((numbers) => {
-            console.log(numbers);
-            this.setState({numbers: numbers});
-        });
+        if (this.props.numbers.length === 0) {
+            this.props.fetchNumbers();
+        }
 
     }
 
@@ -36,7 +36,7 @@ class Numbers extends Component {
                 <br/>
                 <Link to="/products">Products</Link>
                 <ul>
-                    {this.state.numbers.map((n) => {
+                    {this.props.numbers.map((n) => {
                         return <li key={n.number}>{n.number} multiplied by {n.multiplier} is equal
                             to {n.number * n.multiplier}</li>
                     })}
@@ -46,4 +46,5 @@ class Numbers extends Component {
     }
 }
 
+const Numbers = connect(mapStateToProps, mapDispatchToProps)(connectedNumbers);
 export default Numbers;
