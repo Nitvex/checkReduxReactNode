@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from "react-router-dom";
 
-import {addProduct} from '../../actions/addProduct'
+import {fetchProducts} from '../../actions/fetchProducts'
 
 const mapStateToProps = state => {
     return {products: state.products};
@@ -10,7 +10,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        addProduct: product => dispatch(addProduct(product))
+        fetchProducts: () => dispatch(fetchProducts())
     };
 };
 
@@ -18,27 +18,10 @@ class connectedProducts extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            products: []
-        };
     }
 
     componentDidMount() {
-        let requestOptions = {
-            method: 'GET',
-            headers: new Headers(),
-            mode: 'cors',
-            cache: 'default'
-        };
-        fetch('http://127.0.0.1:3000/products', requestOptions).then((response) => {
-            return response.json();
-        }).then((products) => {
-            console.log(products);
-            products.forEach((product) => {
-                this.props.addProduct(product)
-            });
-        });
-
+        this.props.fetchProducts();
     }
 
     render() {
