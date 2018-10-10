@@ -1,8 +1,20 @@
 import React, {Component} from 'react';
-
+import {connect} from 'react-redux';
 import {Link} from "react-router-dom";
 
-class Products extends Component {
+import {addProduct} from '../../actions/addProduct'
+
+const mapStateToProps = state => {
+    return {products: state.products};
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addProduct: product => dispatch(addProduct(product))
+    };
+};
+
+class connectedProducts extends Component {
 
     constructor(props) {
         super(props);
@@ -22,7 +34,9 @@ class Products extends Component {
             return response.json();
         }).then((products) => {
             console.log(products);
-            this.setState({products: products});
+            products.forEach((product) => {
+                this.props.addProduct(product)
+            });
         });
 
     }
@@ -36,7 +50,7 @@ class Products extends Component {
                 <br/>
                 <Link to="/numbers">Numbers</Link>
                 <ul>
-                    {this.state.products.map((p) => {
+                    {this.props.products.map((p) => {
                         return <li key={p.name}>{p.name} cost(s) {p.cost}</li>
                     })}
                 </ul>
@@ -45,4 +59,5 @@ class Products extends Component {
     }
 }
 
-export default Products;
+const Products = connect(mapStateToProps, mapDispatchToProps)(connectedProducts);
+export default Products
