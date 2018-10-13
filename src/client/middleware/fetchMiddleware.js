@@ -10,26 +10,32 @@ export const fetchMiddleware = ({dispatch}) => next => action => {
         mode: 'cors',
         cache: 'default'
     };
-    ;
 
-    if (action.type === FETCH_PRODUCTS) {
-        fetch('http://127.0.0.1:3000/products', requestOptions).then((response) => {
-            return response.json();
-        }).then((products) => {
-            products.forEach((product) => {
-                dispatch(addProduct(product))
-            });
-        });
-    }
-    if (action.type === FETCH_NUMBERS) {
-        fetch('http://127.0.0.1:3000/numbers', requestOptions).then((response) => {
-            return response.json();
-        }).then((numbers) => {
-            numbers.forEach((number) => {
-                dispatch(addNumber(number));
-            });
+    let actionMethod = {
+        url: '',
+        action: null,
+    };
 
-        });
+    switch (action.type) {
+        case FETCH_PRODUCTS:
+            actionMethod.url = 'products';
+            actionMethod.action = addProduct;
+            break;
+        case FETCH_NUMBERS:
+            actionMethod.url = 'numbers';
+            actionMethod.action = addNumber;
+            break;
+        default:
+            next(action);
+            return;
     }
+
+    fetch(`http://127.0.0.1:3000/${actionMethod.url}`, requestOptions).then((response) => {
+        return response.json();
+    }).then((items) => {
+        items.forEach((item) => {
+            dispatch(actionMethod.action(item))
+        });
+    });
     next(action);
 };
