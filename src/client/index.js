@@ -6,6 +6,7 @@ import App from './components/App/App';
 import Numbers from './components/Numbers/Numbers';
 import Products from './components/Products/Products';
 import store from "./store/index";
+import {PrivateRoute} from './components/PrivateRoute/PrivateRoute'
 
 import {HashRouter as Router, Route, Switch} from "react-router-dom";
 
@@ -16,7 +17,7 @@ ReactDOM.render(
             <Switch>
                 <Route exact path="/" component={App}/>
                 <Route path="/products" component={Products}/>
-                <Route path="/numbers" component={Numbers}/>
+                <PrivateRoute path="/numbers" component={Numbers}/>
             </Switch>
         </Router>
     </Provider>
